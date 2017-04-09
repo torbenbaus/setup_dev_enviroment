@@ -22,6 +22,19 @@ read -rsp $'Press any key after manually installed xcode...\n' -n1 key
 echo "======================================="
 xcode-select -v
 
+
+
+echo ""
+echo "======================================="
+echo "========== Installing iTerm ==========="
+echo "======================================="
+echo ""
+
+brew cask install iterm2
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+brew install zsh-syntax-highlighting
+
+
 echo ""
 echo "======================================="
 echo "==== Installing Homebrew and Curl ====="
@@ -53,6 +66,15 @@ brew install rbenv ruby-build
 # Add rbenv to bash so that it loads every time you open a terminal
 echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile
 source ~/.bash_profile
+
+echo ""
+echo "======================================="
+echo "======= Installing Node and npm ======="
+echo "======================================="
+echo ""
+brew install node
+node -v
+npm -v
 
 # Install Ruby
 rbenv install $RUBY_VERSION
@@ -138,5 +160,10 @@ echo "ready to develop:"
 echo "Go to https://github.com/settings/keys and add the following key"
 cat ~/.ssh/id_rsa.pub
 echo "You can check it with check with $ ssh -T git@github.com"
+echo ""
+echo ""
+echo "======================================="
+echo "Then edit your ~/.zshrc and set ZSH_THEME='powerlevel9k/powerlevel9k' or ZSH_THEME='agnoster'"
+echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh to the end of your .zshrc"
 echo "======================================="
 echo ""
