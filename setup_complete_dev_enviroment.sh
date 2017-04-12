@@ -21,8 +21,6 @@ read -rsp $'Press any key after manually installed xcode...\n' -n1 key
 echo "======================================="
 xcode-select -v
 
-
-
 echo ""
 echo "======================================="
 echo "========== Installing iTerm ==========="
@@ -57,6 +55,15 @@ ssh-keygen -t rsa -C $GIT_USER_MAIL
 
 echo ""
 echo "======================================="
+echo "======= Installing Node and npm ======="
+echo "======================================="
+echo ""
+brew install node
+node -v
+npm -v
+
+echo ""
+echo "======================================="
 echo "====== Installing Rbenv and Ruby ======"
 echo "======================================="
 echo ""
@@ -67,15 +74,6 @@ brew install rbenv ruby-build
 # Add rbenv to bash so that it loads every time you open a terminal
 echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile
 source ~/.bash_profile
-
-echo ""
-echo "======================================="
-echo "======= Installing Node and npm ======="
-echo "======================================="
-echo ""
-brew install node
-node -v
-npm -v
 
 # Install Ruby
 echo "Install newest ruby version $RUBY_VERSION"
@@ -151,7 +149,6 @@ echo "======================================="
 echo ""
 curl -O https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py --user
-
 
 echo ""
 echo "======================================="
