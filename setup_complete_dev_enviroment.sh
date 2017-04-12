@@ -2,10 +2,9 @@
 
 # bash script for installing complete dev enviroment
 
-RUBY_VERSION=2.4.0
+RUBY_VERSION=2.2.4
+RUBY_VERSION=2.3.0
 RAILS_VERSION=5.0.1
-GIT_USER_NAME="YOUR NAME"
-GIT_USER_MAIL="YOUR@EMAIL.com"
 
 clear
 
@@ -61,6 +60,8 @@ echo "======================================="
 echo "====== Installing Rbenv and Ruby ======"
 echo "======================================="
 echo ""
+echo "Installing a ruby version manager: rbenv"
+brew install readline
 brew install rbenv ruby-build
 
 # Add rbenv to bash so that it loads every time you open a terminal
@@ -77,13 +78,29 @@ node -v
 npm -v
 
 # Install Ruby
+echo "Install newest ruby version $RUBY_VERSION"
 rbenv install $RUBY_VERSION
+rbenv install $SECOND_RUBY_VERSION
+echo "Setting newest version of ruby for global use"
 rbenv global $RUBY_VERSION
-echo "======================================="
-ruby -v
+echo "Install bundler gem globally"
 gem install bundler
 echo "======================================="
+ruby -v
 bundle -v
+
+echo "=========== Install Rails ============="
+#!/usr/local/bin/bash
+echo "Installing required libs for a rails dependency 'nokogiri'"
+brew install libxml2 libxslt
+
+echo "Installing nokogiri gem with OS X specific libxml2 and libxslt versions"
+gem install nokogiri -- \
+  --use-system-libraries \
+  --with-xml2-include=/usr/local/opt/libxml2/include/libxml2 \
+  --with-xml2-lib=/usr/local/opt/libxml2/lib \
+  --with-xslt-dir=/usr/local/opt/libxslt/lib
+
 gem install rails -v $RAILS_VERSION
 rbenv rehash
 echo "======================================="
@@ -101,16 +118,23 @@ brew services start mysql
 echo "======================================="
 brew services list
 
-
 echo ""
 echo "======================================="
-echo "========== Installing MySQL ==========="
+echo "======= Installing PostgreSQL ========="
 echo "======================================="
 echo ""
 brew install postgresql
 brew services start postgresql
 echo "======================================="
 brew services list
+
+echo ""
+echo "======================================="
+echo "========== Installing redis ==========="
+echo "======================================="
+echo ""
+brew install redis
+brew services start redis
 
 
 echo ""
@@ -135,21 +159,43 @@ echo "========= Installing AWS CLI =========="
 echo "======================================="
 echo ""
 pip3 install --user --upgrade awscli
-
+echo "======================================="
+aws --version
+echo "======================================="
+aws configure
+echo "======================================="
+aws iam list-users
 
 echo ""
 echo "======================================="
 echo "========= Installing Docker ==========="
 echo "======================================="
 echo ""
+brew cask install docker-toolbox
+bash --login '/Applications/Docker/Docker Quickstart Terminal.app/Contents/Resources/Scripts/start.sh'
 
 echo ""
 echo "======================================="
 echo "========= Installing Chrome ==========="
 echo "======================================="
 echo ""
+brew cask install google-chrome
 # source ~/.bashrc
 
+echo ""
+echo "======================================="
+echo "========== Installing Slack ==========="
+echo "======================================="
+echo ""
+brew cask install slack
+# source ~/.bashr
+
+echo ""
+echo "======================================="
+echo "====== Installing github-desktop ======"
+echo "======================================="
+echo ""
+brew cask install github-desktop
 echo ""
 echo "======================================="
 echo "           CONGRATULATIONS!            "
@@ -157,13 +203,11 @@ echo "        INSTALLATION COMPLETED!        "
 echo ""
 echo "You should do the following steps to be"
 echo "ready to develop:"
+echo ""
 echo "Go to https://github.com/settings/keys and add the following key"
+echo ""
 cat ~/.ssh/id_rsa.pub
+echo ""
 echo "You can check it with check with $ ssh -T git@github.com"
-echo ""
-echo ""
-echo "======================================="
-echo "Then edit your ~/.zshrc and set ZSH_THEME='powerlevel9k/powerlevel9k' or ZSH_THEME='agnoster'"
-echo "source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh to the end of your .zshrc"
 echo "======================================="
 echo ""
